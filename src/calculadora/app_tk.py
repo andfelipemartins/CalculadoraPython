@@ -104,21 +104,39 @@ class CalculatorApp:
     def _render(self):
         raw = self.engine.get_display()
 
-        # GUI-friendly: limita o tamanho visual do display
-        # (não altera o valor real na engine, apenas como mostramos)
+        # GUI-friendly: limita o tamanho visual do display sem usar float
+        # para evitar perda de precisão/representação.
         text = raw
 
-        MAX = 18  # limite visual (ajuste fino depois se quiser)
-        if len(text) > MAX and text not in {"Erro", "Error"}:
-            # tenta converter para float só pra exibir em notação científica
-            # (se falhar, faz corte simples)
-            try:
-                val = float(text)
-                text = f"{val:.10g}"  # 10 dígitos significativos costuma ficar bom
-                if len(text) > MAX:
-                    text = f"{val:.6e}"  # fallback científico
-            except Exception:
+        MAX = 18  # limite visual
+        if text not in {"Erro", "Error"} and len(text) > MAX:
+            # Se já vier em notação científica, só corta no limite
+            if "e" in text.lower():
                 text = text[:MAX]
+            else:
+                # Heurística simples:
+                # - mantém sinal
+                # - preserva parte inteira e começa a cortar a parte decimal
+                sign = ""
+                if text.startswith("-"):
+                    sign = "-"
+                    text_body = text[1:]
+                else:
+                    text_body = text
+
+                if "." in text_body:
+                    int_part, frac_part = text_body.split(".", 1)
+                    # reserva: sinal + inteiro + "." + (resto)
+                    reserve = len(sign) + len(int_part) + 1
+                    if reserve >= MAX:
+                        # inteiro já “enche” o display -> mostra começo do inteiro
+                        text = (sign + int_part)[:MAX]
+                    else:
+                        allowed_frac = MAX - reserve
+                        text = sign + int_part + "." + frac_part[:allowed_frac]
+                else:
+                    # número inteiro muito grande -> corta visualmente
+                    text = (sign + text_body)[:MAX]
 
         self.var_display.set(text)
         self.var_secondary.set(self.engine.get_secondary())
