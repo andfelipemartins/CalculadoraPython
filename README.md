@@ -23,3 +23,18 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -U pip
 python -m pip install -e .
+
+## Atalhos (Windows / PowerShell)
+
+```powershell
+.\tasks.ps1 init
+.\tasks.ps1 test
+.\tasks.ps1 run
+
+
+### 3) Commit + push
+
+```powershell
+git add tasks.ps1 README.md
+git commit -m "docs: add tasks script for common commands"
+git push
