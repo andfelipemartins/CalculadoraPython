@@ -5,6 +5,11 @@ Todas as mudanças relevantes deste projeto serão documentadas aqui.
 O formato segue uma linha simples inspirada em "Keep a Changelog" e versionamento por tags Git.
 
 ---
+## [v0.1.2] - 2025-12-14
+
+### Removed
+- `requirements.txt` redundante (projeto já usa `pyproject.toml`)
+
 ## [v0.1.1] - 2025-12-14
 
 ### Changed
