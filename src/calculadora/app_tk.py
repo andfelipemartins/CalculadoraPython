@@ -102,7 +102,25 @@ class CalculatorApp:
         self._render()
 
     def _render(self):
-        self.var_display.set(self.engine.get_display())
+        raw = self.engine.get_display()
+
+        # GUI-friendly: limita o tamanho visual do display
+        # (não altera o valor real na engine, apenas como mostramos)
+        text = raw
+
+        MAX = 18  # limite visual (ajuste fino depois se quiser)
+        if len(text) > MAX and text not in {"Erro", "Error"}:
+            # tenta converter para float só pra exibir em notação científica
+            # (se falhar, faz corte simples)
+            try:
+                val = float(text)
+                text = f"{val:.10g}"  # 10 dígitos significativos costuma ficar bom
+                if len(text) > MAX:
+                    text = f"{val:.6e}"  # fallback científico
+            except Exception:
+                text = text[:MAX]
+
+        self.var_display.set(text)
         self.var_secondary.set(self.engine.get_secondary())
 
     def _on_key_event(self, event: tk.Event):
