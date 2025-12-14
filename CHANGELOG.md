@@ -5,6 +5,10 @@ Todas as mudanças relevantes deste projeto serão documentadas aqui.
 O formato segue uma linha simples inspirada em "Keep a Changelog" e versionamento por tags Git.
 
 ---
+## [v0.1.1] - 2025-12-14
+
+### Changed
+- UI: display limita números longos de forma amigável sem usar float (evita perda de precisão)
 
 ## [v0.1.0] - 2025-12-14
 
