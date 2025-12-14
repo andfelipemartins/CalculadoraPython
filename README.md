@@ -1,3 +1,5 @@
+![Tests](https://github.com/andfelipemartins/CalculadoraPython/actions/workflows/tests.yml/badge.svg)
+
 # Calculadora (Python) — Engine testável + GUI Tkinter
 
 Projeto de calculadora com arquitetura **“cérebro primeiro”**:
