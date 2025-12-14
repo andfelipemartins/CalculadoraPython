@@ -45,3 +45,6 @@ Thumbs.db
 # Word / Office temporary files
 ~$*.docx
 ~$*.doc
+
+# Notes / scratch files
+estrutura_do_projeto.txt
