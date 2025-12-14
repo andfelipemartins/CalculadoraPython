@@ -19,6 +19,8 @@ from tkinter import ttk
 
 # Garante que o import funcione ao rodar "python ./src/app_tk.py"
 SRC_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = SRC_DIR.parent  # C:\Calculadora
+ASSETS_DIR = PROJECT_ROOT / "assets"
 sys.path.insert(0, str(SRC_DIR))
 
 from engine import CalculatorEngine  # noqa: E402
@@ -27,7 +29,7 @@ from engine import CalculatorEngine  # noqa: E402
 class CalculatorApp:
     def __init__(self, root: tk.Tk):
         self.root = root
-        self.root.title("Calculadora (Python)")
+        self.root.title("CalculadoraPython")
 
         # Engine
         self.engine = CalculatorEngine()
@@ -38,6 +40,7 @@ class CalculatorApp:
 
         # Layout base
         self._build_ui()
+        self._apply_app_icon()
         self._bind_keys()
         self._refresh()
 
@@ -45,11 +48,30 @@ class CalculatorApp:
         self.root.after(50, self._bring_to_front)
 
     # -------------------------
+    # Aparência / Ícone
+    # -------------------------
+    def _apply_app_icon(self):
+        """
+        Usa assets/icon.ico se existir.
+        Se não existir ou falhar, não quebra o app (fallback silencioso).
+        """
+        ico_path = ASSETS_DIR / "icon.ico"
+        if not ico_path.exists():
+            return
+
+        try:
+            # No Windows, iconbitmap funciona bem com .ico
+            self.root.iconbitmap(str(ico_path))
+        except Exception:
+            # Se der problema (tema, permissões, etc.), só ignora.
+            pass
+
+    # -------------------------
     # UI
     # -------------------------
     def _build_ui(self):
         self.root.minsize(360, 520)
-        self.root.geometry("380x560")  # tamanho inicial (fica bonito)
+        self.root.geometry("380x560")
         self.root.resizable(True, True)
 
         outer = ttk.Frame(self.root, padding=12)
@@ -114,11 +136,9 @@ class CalculatorApp:
         hint.grid(row=3, column=0, sticky="ew", pady=(10, 0))
 
     def _bring_to_front(self):
-        # garante que a janela está "normal" e visível
         self.root.update_idletasks()
         self.root.deiconify()
         self.root.lift()
-        # topmost temporário para garantir foco no Windows
         try:
             self.root.attributes("-topmost", True)
             self.root.after(150, lambda: self.root.attributes("-topmost", False))
@@ -209,6 +229,7 @@ class CalculatorApp:
             self._on_press("CE")
             return
 
+        # atalhos opcionais
         if ch.lower() == "c":
             self._on_press("C")
             return
