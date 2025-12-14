@@ -1,0 +1,22 @@
+# Força padronização de fim de linha no repositório (LF),
+# e permite que o Windows use CRLF no working tree quando apropriado.
+* text=auto
+
+# Arquivos que queremos sempre em LF (configs, código, docs markdown)
+*.py  text eol=lf
+*.md  text eol=lf
+*.toml text eol=lf
+*.ini text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.txt text eol=lf
+*.gitignore text eol=lf
+*.gitattributes text eol=lf
+
+# Binários (não mexer em eol)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.docx binary
