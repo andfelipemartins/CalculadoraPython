@@ -1,4 +1,5 @@
-![Tests](https://github.com/andfelipemartins/CalculadoraPython/actions/workflows/tests.yml/badge.svg)
+[![Tests](https://github.com/andfelipemartins/CalculadoraPython/actions/workflows/tests.yml/badge.svg)](https://github.com/andfelipemartins/CalculadoraPython/actions/workflows/tests.yml)
+
 
 # Calculadora (Python) — Engine testável + GUI Tkinter
 
